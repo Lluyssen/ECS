@@ -62,16 +62,18 @@ struct Plant
 
 ## 📊 Statistiques du code
 
-| Élément                     | Valeur estimée              |
-|----------------------------|-----------------------------|
-| Nombre de fichiers         | 10–15 fichiers `.hpp`       |
-| Lignes de code (hors test) | ~2500 lignes                |
-| Nombre moyen de composants | 5–10                        |
-| Nombre moyen de systèmes   | 5–10                        |
-| Itérations ECS optimisées  | ✅ via `Group<Ts...>`        |
-| Réflexion runtime          | ✅ via `tie()` + `fieldNames()` |
-| Utilisation RTTI           | ❌ (aucun `dynamic_cast`)   |
-| Concepts ou `requires`     | ❌ (100 % C++17 compatible) |
+Benchmark typique sur 100 000 entités
+Opération   Durée estimée (release, GCC/Clang, -O2)   
+
+| Opération                      | Durée estimée               |
+|--------------------------------|-----------------------------|
+| Création de 100k entités       | ~2-5 ms                     |
+| Ajout de 3 composants          | ~5-10 ms                    |
+| Boucle forEachEntityWith<Ts>   | ~1-3 ms                     |
+| Dispatch d’événement ciblé     | ~0.01 ms                    |
+| Dispatch d’événement broadcast | ~0.1 ms                     |
+| Inspection runtime             | ~5-20 µs                    |
+| update() complet 100k entités  | ~5-15 ms                    |
 
 ---
 
