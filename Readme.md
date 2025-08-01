@@ -1,8 +1,8 @@
 # ⚙️ ECS Pro – Moteur ECS en C++17 orienté Métaprogrammation
 
-**ECS Pro** est un moteur ECS (Entity Component System) modulaire, extensible et 100 % typé, conçu pour les développeurs avancés, les moteurs de jeu personnalisés et les simulations interactives.  
-Écrit entièrement en **C++17**, il repose sur une architecture à base de **TypeList**, de réflexion statique (`tie()`, `fieldNames()`), et de `SparseSet`, permettant une efficacité maximale et une compilation orientée types.
-
+**ECS Pro** est un moteur ECS (Entity Component System) modulaire, extensible et 100 % typé
+Écrit entièrement en **C++17**, il repose sur une architecture à base de **TypeList** (voir répo TypeList Métaprog), de réflexion statique (`tie()`, `fieldNames()`), et de `SparseSet`, permettant une efficacité maximale et une compilation orientée types.
+Compile time et runTime
 ---
 
 ## ✨ Fonctionnalités principales
@@ -47,12 +47,13 @@ StaticForEach<TypeList<Plant, Insect>>([](auto tag) {
 ### 🧠 Exemple : introspection statique
 
 ```cpp
-struct Plant {
+struct Plant 
+{
     float growth;
     int age;
 
-    auto tie() { return std::tie(growth, age); }
-    static std::array<const char*, 2> fieldNames() { return { "growth", "age" }; }
+    auto tie(void) { return std::tie(growth, age); }
+    static std::array<const char*, 2> fieldNames(void) const { return { "growth", "age" }; }
 };
 ```
 
@@ -79,21 +80,19 @@ struct Plant {
 
 ```cpp
 auto group = registry.group<Plant, Growth>();
-for (auto&& [e, plant, growth] : group) {
+for (auto&& [e, plant, growth] : group)
     plant.size += growth.rate;
-}
 ```
 
 ### 🧠 Introspection runtime
 
 ```cpp
 auto info = RuntimeInspector<Components>::inspectEntity(registry, entity);
-for (auto& comp : info.components) {
-    std::cout << comp.typeName << ":
-";
+for (auto& comp : info.components)
+ {
+    std::cout << comp.typeName << ":";
     for (auto& field : comp.fields)
-        std::cout << "  " << field.name << " = " << field.value << "
-";
+        std::cout << "  " << field.name << " = " << field.value << "";
 }
 ```
 
@@ -101,7 +100,8 @@ for (auto& comp : info.components) {
 
 ```cpp
 struct FireEvent { Entity target; };
-template<> struct EventTraits<FireEvent> {
+template<> struct EventTraits<FireEvent> 
+{
     static constexpr bool isTargeted = true;
     static Entity getTarget(const FireEvent& e) { return e.target; }
 };
@@ -133,37 +133,7 @@ ecs_pro/
 └── README.md
 ```
 
----
+## PS
 
-## 🔧 Compilation
-
-Compiler avec C++17 :
-
-```bash
-g++ -std=c++17 main.cpp -o ecs_pro
-./ecs_pro
-```
-
----
-
-## 🧪 Roadmap et extensions
-
-- [ ] `Group<Ts...>::exclude<Us...>()`
-- [ ] Ajout de hooks : `onStart()`, `onEntityAdded()`
-- [ ] Support de `std::optional<T>` dans introspection
-- [ ] Génération automatique `REFLECT(x, y, z)` pour composants
-- [ ] Plugin d’observation ECS live (ImGui ou terminal)
-
----
-
-## 📖 Licence
-
-**MIT** – libre pour usage personnel, académique ou commercial.
-
----
-
-## 🙌 Remerciements
-
-- `EnTT`, `flecs`, `Unity DOTS` pour les inspirations design
-- `StaticForEach` et `TypeList` pour la compile-time safety
-- Toute la communauté C++ pour pousser les limites de la généricité
+Contient actuellement deux mains explications montrant l'ensemble des possibilitées de cette Ecs
+Projet perso n'ayant pas de but précis en dehors de trouver un cas d'utilisation au repo TypeList
