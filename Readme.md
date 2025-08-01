@@ -1,7 +1,7 @@
 # ⚙️ ECS Pro – Moteur ECS en C++17 orienté Métaprogrammation
 
 ---
-**ECS Pro** est un moteur ECS (Entity Component System) modulaire, extensible et 100 % typé
+Moteur ECS (Entity Component System) modulaire, extensible et 100 % typé
 Écrit entièrement en **C++17**, il repose sur une architecture à base de **TypeList** (voir répo TypeList Métaprog), de réflexion statique (`tie()`, `fieldNames()`), et de `SparseSet`, permettant une efficacité maximale et une compilation orientée types.
 Compile time et runTime
 ---
